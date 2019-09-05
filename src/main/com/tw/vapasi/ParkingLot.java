@@ -28,4 +28,8 @@ public class ParkingLot {
         }
         parkedVehicles.remove(vehicle);
     }
+
+    boolean isVehicleParked(Vehicle vehicle) {
+        return parkedVehicles.contains(vehicle);
+    }
 }

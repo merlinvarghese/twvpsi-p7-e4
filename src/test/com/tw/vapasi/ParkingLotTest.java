@@ -21,13 +21,9 @@ class ParkingLotTest {
         ParkingLot parkingLot = new ParkingLot(1);
         Vehicle vehicle1 = getVehicle();
         Vehicle vehicle2 = getVehicle();
-        try {
-            parkingLot.park(vehicle1);
-            parkingLot.park(vehicle2);
-            Assertions.fail("Fail path");
-        } catch (Exception e) {
-            //pass flow
-        }
+
+        Assertions.assertThrows(UnableToParkException.class, () -> parkingLot.park(vehicle1));
+        Assertions.assertThrows(UnableToParkException.class, () -> parkingLot.park(vehicle2));
     }
 
     @Test
@@ -46,20 +42,21 @@ class ParkingLotTest {
     void expectToUnparkAVehicleNotParked() {
         ParkingLot parkingLot = new ParkingLot(1);
         Vehicle vehicle1 = getVehicle();
-        Vehicle vehicle2 = getVehicle();
-        try {
-            parkingLot.park(vehicle1);
-            parkingLot.unPark(vehicle2);
-            Assertions.fail("Fail path");
-        } catch (Exception e) {
-            //pass flow
-        }
+
+        Assertions.assertThrows(UnableToUnparkException.class, () -> parkingLot.unPark(vehicle1));
+    }
+
+    @Test
+    void expectTrueIfTheVehicleIsParked() throws UnableToParkException {
+        ParkingLot parkingLot = new ParkingLot(10);
+        Vehicle vehicle = getVehicle();
+        parkingLot.park(vehicle);
+
+        parkingLot.isVehicleParked(vehicle);
     }
 
     private Vehicle getVehicle() {
         return new Vehicle() {
         };
     }
-
-
 }
