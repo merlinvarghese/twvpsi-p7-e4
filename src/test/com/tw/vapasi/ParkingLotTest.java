@@ -81,24 +81,20 @@ class ParkingLotTest {
     @Test
     void expectOwnerIsNotNotifiedWhenParkingIsAvailable() throws UnableToParkException {
         ParkingLotOwner owner = mock(ParkingLotOwner.class);
-        ParkingLot parkingLot = new ParkingLot(3, owner);
+        ParkingLot parkingLot = new ParkingLot(2, owner);
         Vehicle vehicle1 = getVehicle();
         parkingLot.park(vehicle1);
-        Vehicle vehicle2 = getVehicle();
-        parkingLot.park(vehicle2);
 
         verify(owner, never()).notifyParkingIsFull();
     }
 
     @Test
-    void expectOwnerIsNotifiedWhenParkingLotIsAvailableAfterUnParkingAVehicle() throws UnableToParkException, UnableToUnparkException {
+    void expectOwnerIsNotifiedWhenParkingLotIsAvailableAgain() throws UnableToParkException, UnableToUnparkException {
         ParkingLotOwner owner = mock(ParkingLotOwner.class);
-        ParkingLot parkingLot = new ParkingLot(2, owner);
+        ParkingLot parkingLot = new ParkingLot(1, owner);
         Vehicle vehicle1 = getVehicle();
         parkingLot.park(vehicle1);
-        Vehicle vehicle2 = getVehicle();
-        parkingLot.park(vehicle2);
-        parkingLot.unPark(vehicle2);
+        parkingLot.unPark(vehicle1);
 
         verify(owner).notifyParkingIsAvailable();
     }

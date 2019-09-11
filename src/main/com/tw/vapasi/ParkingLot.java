@@ -4,61 +4,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Understands spaces available to halt a vehicle
-public class ParkingLot {
+class ParkingLot {
     private List<Vehicle> parkedVehicles;
     private Integer maxCapacity;
-    private STATUS status;
     private ParkingLotOwner owner;
 
-    enum STATUS {
-        AVAILABLE,
-        FULL
-    }
-
-    public ParkingLot(int capacity) {
+    ParkingLot(int capacity) {
         this.parkedVehicles = new ArrayList<>();
         this.maxCapacity = capacity;
-        this.status = STATUS.AVAILABLE;
     }
 
-    public ParkingLot(int capacity, ParkingLotOwner parkingLotOwner) {
+    ParkingLot(int capacity, ParkingLotOwner parkingLotOwner) {
         this.parkedVehicles = new ArrayList<>();
         this.maxCapacity = capacity;
-        this.status = STATUS.AVAILABLE;
         this.owner = parkingLotOwner;
     }
 
     void park(Vehicle vehicle) throws UnableToParkException {
-        if (status.equals(STATUS.FULL)) {
+        if (parkedVehicles.size() == maxCapacity) {
             throw new UnableToParkException();
         }
         parkedVehicles.add(vehicle);
         if (parkedVehicles.size() == maxCapacity) {
-            status = STATUS.FULL;
-            notifyOwner();
+            notifyOwnerParkingIsFull();
         }
+    }
+
+    boolean isSlotAvailable() {
+        return parkedVehicles.size() < maxCapacity;
     }
 
     void unPark(Vehicle vehicle) throws UnableToUnparkException {
         if (!parkedVehicles.contains(vehicle)) {
             throw new UnableToUnparkException();
         }
+        boolean isParkingFull = false;
+        if (parkedVehicles.size() == maxCapacity) {
+            isParkingFull = true;
+        }
         parkedVehicles.remove(vehicle);
-        if (parkedVehicles.size() == maxCapacity - 1 && status.equals(STATUS.FULL)) {
-            status = STATUS.AVAILABLE;
-            notifyOwner();
+        if (parkedVehicles.size() == maxCapacity - 1 && isParkingFull) {
+            notifyOwnerParkingIsAvailable();
         }
     }
 
-    private void notifyOwner() {
-        if (this.owner == null) {
-            return;
+    private void notifyOwnerParkingIsAvailable() {
+        if (this.owner != null) {
+            this.owner.notifyParkingIsAvailable();
         }
-        if (status.equals(STATUS.FULL)) {
+
+    }
+
+    private void notifyOwnerParkingIsFull() {
+        if (this.owner != null) {
             this.owner.notifyParkingIsFull();
-            return;
         }
-        this.owner.notifyParkingIsAvailable();
+
     }
 
     boolean isVehicleParked(Vehicle vehicle) {
