@@ -7,17 +7,16 @@ import java.util.List;
 class ParkingLot {
     private List<Vehicle> parkedVehicles;
     private Integer maxCapacity;
-    private ParkingLotOwner owner;
+    private List<ParkingLotListener> listeners;
 
     ParkingLot(int capacity) {
         this.parkedVehicles = new ArrayList<>();
         this.maxCapacity = capacity;
     }
 
-    ParkingLot(int capacity, ParkingLotOwner parkingLotOwner) {
+    ParkingLot(int capacity, ParkingLotListener parkingLotListener) {
         this.parkedVehicles = new ArrayList<>();
         this.maxCapacity = capacity;
-        this.owner = parkingLotOwner;
     }
 
     void park(Vehicle vehicle) throws UnableToParkException {
@@ -49,20 +48,28 @@ class ParkingLot {
     }
 
     private void notifyOwnerParkingIsAvailable() {
-        if (this.owner != null) {
-            this.owner.notifyParkingIsAvailable();
+        if (this.listeners != null) {
+            this.listeners.notifyParkingIsAvailable();
         }
 
     }
 
     private void notifyOwnerParkingIsFull() {
-        if (this.owner != null) {
-            this.owner.notifyParkingIsFull();
+        if (this.listeners != null) {
+            listeners;
         }
 
     }
 
     boolean isVehicleParked(Vehicle vehicle) {
         return parkedVehicles.contains(vehicle);
+    }
+
+    public void register(ParkingLotListener listener){
+        listeners.add(listener);
+    }
+
+    public void unregister(ParkingLotListener listener){
+        listeners.remove(listener);
     }
 }

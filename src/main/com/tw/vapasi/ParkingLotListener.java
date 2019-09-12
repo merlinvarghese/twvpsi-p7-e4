@@ -2,7 +2,7 @@ package com.tw.vapasi;
 
 
 //Understands Owner of Parking Lot
-interface ParkingLotOwner {
+interface ParkingLotListener {
     void notifyParkingIsFull();
 
     void notifyParkingIsAvailable();

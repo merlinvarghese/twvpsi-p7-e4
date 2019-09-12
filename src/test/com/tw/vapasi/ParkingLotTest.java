@@ -68,7 +68,7 @@ class ParkingLotTest {
 
     @Test
     void expectToNotifyOwnerWhenParkingLotIsFull() throws UnableToParkException {
-        ParkingLotOwner owner = mock(ParkingLotOwner.class);
+        ParkingLotListener owner = mock(ParkingLotListener.class);
         ParkingLot parkingLot = new ParkingLot(2, owner);
         Vehicle vehicle1 = getVehicle();
         parkingLot.park(vehicle1);
@@ -80,7 +80,7 @@ class ParkingLotTest {
 
     @Test
     void expectOwnerIsNotNotifiedWhenParkingIsAvailable() throws UnableToParkException {
-        ParkingLotOwner owner = mock(ParkingLotOwner.class);
+        ParkingLotListener owner = mock(ParkingLotListener.class);
         ParkingLot parkingLot = new ParkingLot(2, owner);
         Vehicle vehicle1 = getVehicle();
         parkingLot.park(vehicle1);
@@ -90,7 +90,7 @@ class ParkingLotTest {
 
     @Test
     void expectOwnerIsNotifiedWhenParkingLotIsAvailableAgain() throws UnableToParkException, UnableToUnparkException {
-        ParkingLotOwner owner = mock(ParkingLotOwner.class);
+        ParkingLotListener owner = mock(ParkingLotListener.class);
         ParkingLot parkingLot = new ParkingLot(1, owner);
         Vehicle vehicle1 = getVehicle();
         parkingLot.park(vehicle1);
